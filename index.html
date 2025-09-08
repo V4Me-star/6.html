@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header, footer {
+            background-color:pink;
+            color:#333;
+            text-align: center
+            
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s ease;
+        }
+
+        h2 {
+            color: #444;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        /* Specific styling for the hidden text feature */
+        .hidden {
+            display: none;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Hello!welcome to My Interactive Page</h1>
+    </header>
+
+    <main>
+        <section id="color-changer-section">
+            <h2>Color Changer</h2>
+            <p>Click the button to change the background color of this section.</p>
+            <button id="color-btn">Change Color</button>
+        </section>
+
+        ---
+
+        <section id="text-hider-section">
+            <h2>Text Hider</h2>
+            <p>Click the button to hide or show the text below.</p>
+            <button id="toggle-btn">Toggle Text</button>
+            <p id="hidden-text" class="hidden">This is a secret message! You've found it,your greater than you can imagine.</p>
+        </section>
+
+        ---
+        
+        <section id="contact-form-section">
+            <h2>Contact Me</h2>
+            <p>Please fill out the form below. All fields are required.</p>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name">
+                    <span class="error-message" id="name-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                    <span class="error-message" id="email-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message"></textarea>
+                    <span class="error-message" id="message-error"></span>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Wendy 2025 Interactive Web Page</p>
+    </footer>
+
+    <script>
+        // A simple function to validate if a string is a valid email address
+        function isValidEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+        
+        // --- Event Handling for Color Changer ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the button and section elements for the color changer feature
+            const colorBtn = document.getElementById('color-btn');
+            const colorSection = document.getElementById('color-changer-section');
+        
+            // Add a click event listener to the color change button
+            colorBtn.addEventListener('click', () => {
+                // Generate a random color in hexadecimal format
+                const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                // Change the background color of the section
+                colorSection.style.backgroundColor = randomColor;
+            });
+        
+            // --- Event Handling for Text Hider/Shower ---
+            // Get the button and the text element for the hide/show feature
+            const toggleBtn = document.getElementById('toggle-btn');
+            const hiddenText = document.getElementById('hidden-text');
+        
+            // Add a click event listener to the toggle button
+            toggleBtn.addEventListener('click', () => {
+                // Toggle the 'hidden' class on the text element
+                hiddenText.classList.toggle('hidden');
+            });
+        
+            // --- Custom Form Validation ---
+            // Get the form and all the input fields
+            const form = document.getElementById('contact-form');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+        
+            // Add a submit event listener to the form
+            form.addEventListener('submit', (event) => {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+        
+                // Get the error message elements
+                const nameError = document.getElementById('name-error');
+                const emailError = document.getElementById('email-error');
+                const messageError = document.getElementById('message-error');
+        
+                // Clear previous error messages
+                nameError.textContent = '';
+                emailError.textContent = '';
+                messageError.textContent = '';
+        
+                let formIsValid = true;
+        
+                // Validation for the name field
+                if (nameInput.value.trim() === '') {
+                    nameError.textContent = 'Name is required.';
+                    formIsValid = false;
+                }
+        
+                // Validation for the email field
+                if (emailInput.value.trim() === '') {
+                    emailError.textContent = 'Email is required.';
+                    formIsValid = false;
+                } else if (!isValidEmail(emailInput.value.trim())) {
+                    emailError.textContent = 'Please enter a valid email address.';
+                    formIsValid = false;
+                }
+        
+                // Validation for the message field
+                if (messageInput.value.trim() === '') {
+                    messageError.textContent = 'Message is required.';
+                    formIsValid = false;
+                }
+        
+                // If the form is valid, you can proceed with form submission (e.g., via AJAX)
+                if (formIsValid) {
+                    alert('Form submitted successfully!');
+                    // You can add code here to handle the form data, e.g., send it to a server
+                    // For this example, we'll just clear the form
+                    form.reset();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
